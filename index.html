@@ -12,10 +12,10 @@
             ctx.stroke();
         }
 
-        function fillRectangle(ctx, x, y, width, height) {
+        function fillRectangle(ctx, x, y, width, height, index) {
             ctx.beginPath();
-            ctx.lineWidth = "2";
-            ctx.strokeStyle = "green";
+            ctx.lineWidth = "1";
+            ctx.strokeStyle = index % 2 == 0 ? "red": "blue";
             ctx.rect(x * _ZOOM_FACTOR, y * _ZOOM_FACTOR, width * _ZOOM_FACTOR, height * _ZOOM_FACTOR);
             ctx.stroke();
         }
@@ -28,13 +28,13 @@
             const rectWidth = document.getElementById("rect_width").value;
             const rectHeight = document.getElementById("rect_height").value;
             drawMainRectangle(ctx, mainWidth, mainHeight);
-            fillRectangle(ctx, 0, 0, 2, 1);
-            fillRectangle(ctx, 0, 1, 2, 1);
-            fillRectangle(ctx, 0, 2, 2, 1);
-            fillRectangle(ctx, 0, 3, 2, 1);
-            fillRectangle(ctx, 0, 4, 2, 1);
-            fillRectangle(ctx, 2, 0, 1, 2);
-            fillRectangle(ctx, 2, 2, 1, 2);
+            fillRectangle(ctx, 0, 0, 2, 1, 0);
+            fillRectangle(ctx, 0, 1, 2, 1, 1);
+            fillRectangle(ctx, 0, 2, 2, 1, 2);
+            fillRectangle(ctx, 0, 3, 2, 1, 3);
+            fillRectangle(ctx, 0, 4, 2, 1, 4);
+            fillRectangle(ctx, 2, 0, 1, 2, 5);
+            fillRectangle(ctx, 2, 2, 1, 2, 6);
         }
 
     </script>
