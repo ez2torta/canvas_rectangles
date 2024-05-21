@@ -2,17 +2,25 @@
 
 <head>
     <script>
+        const _ZOOM_FACTOR = 60
+        function drawMainRectangle(ctx, width, height) {
+            // draws the main rectangle given the width and height
+            ctx.beginPath();
+            ctx.lineWidth = "3";
+            ctx.strokeStyle = "gray";
+            ctx.rect(0, 0, width * _ZOOM_FACTOR, height * _ZOOM_FACTOR);
+            ctx.stroke();
+        }
+
         function fillCanvas() {
-            console.log("hola");
             const canvas = document.getElementById("canvas");
             const ctx = canvas.getContext("2d");
+            const mainWidth = document.getElementById("main_width").value;
+            const mainHeight = document.getElementById("main_height").value;
+            const rectWidth = document.getElementById("rect_width").value;
+            const rectHeight = document.getElementById("rect_height").value;
 
-            // Red rectangle
-            ctx.beginPath();
-            ctx.lineWidth = "6";
-            ctx.strokeStyle = "red";
-            ctx.rect(5, 5, 290, 140);
-            ctx.stroke();
+            drawMainRectangle(ctx, mainWidth, mainHeight);
 
             // Green rectangle
             ctx.beginPath();
@@ -33,9 +41,28 @@
 </head>
 
 <body>
-    <canvas id="canvas">No Canvas?</canvas>
+    <h4>
+        <label for="main_width">Main Width</label>
+        <input id="main_width" name="main_width" type="number" value="3" min="0" />
+    </h4>
+    <h4>
+        <label for="main_height">Main Height</label>
+        <input id="main_height" name="main_height" type="number" value="5" />
+    </h4>
 
-    <button onclick="fillCanvas()">Llenar Canvas!</button>
+    <h4>
+        <label for="rect_width">Rect Width</label>
+        <input id="rect_width" name="rect_width" type="number" value="1" />
+    </h4>
+    <h4>
+        <label for="rect_height">Rect Width</label>
+        <input id="rect_height" name="rect_height" type="number" value="2" />
+    </h4>
+    <h4>
+        <button type="submit" onclick="fillCanvas()">Llenar Canvas!</button>
+    </h4>
+    <canvas id="canvas" width="640" height="480">No Canvas?</canvas>
+
 </body>
 
 </html>
