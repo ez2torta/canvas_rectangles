@@ -6,35 +6,35 @@
         function drawMainRectangle(ctx, width, height) {
             // draws the main rectangle given the width and height
             ctx.beginPath();
-            ctx.lineWidth = "3";
+            ctx.lineWidth = "2";
             ctx.strokeStyle = "gray";
             ctx.rect(0, 0, width * _ZOOM_FACTOR, height * _ZOOM_FACTOR);
             ctx.stroke();
         }
 
+        function fillRectangle(ctx, x, y, width, height) {
+            ctx.beginPath();
+            ctx.lineWidth = "2";
+            ctx.strokeStyle = "green";
+            ctx.rect(x * _ZOOM_FACTOR, y * _ZOOM_FACTOR, width * _ZOOM_FACTOR, height * _ZOOM_FACTOR);
+            ctx.stroke();
+        }
         function fillCanvas() {
             const canvas = document.getElementById("canvas");
             const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             const mainWidth = document.getElementById("main_width").value;
             const mainHeight = document.getElementById("main_height").value;
             const rectWidth = document.getElementById("rect_width").value;
             const rectHeight = document.getElementById("rect_height").value;
-
             drawMainRectangle(ctx, mainWidth, mainHeight);
-
-            // Green rectangle
-            ctx.beginPath();
-            ctx.lineWidth = "4";
-            ctx.strokeStyle = "green";
-            ctx.rect(30, 30, 50, 50);
-            ctx.stroke();
-
-            // Blue rectangle
-            ctx.beginPath();
-            ctx.lineWidth = "10";
-            ctx.strokeStyle = "blue";
-            ctx.rect(50, 50, 150, 80);
-            ctx.stroke();
+            fillRectangle(ctx, 0, 0, 2, 1);
+            fillRectangle(ctx, 0, 1, 2, 1);
+            fillRectangle(ctx, 0, 2, 2, 1);
+            fillRectangle(ctx, 0, 3, 2, 1);
+            fillRectangle(ctx, 0, 4, 2, 1);
+            fillRectangle(ctx, 2, 0, 1, 2);
+            fillRectangle(ctx, 2, 2, 1, 2);
         }
 
     </script>
@@ -43,20 +43,20 @@
 <body>
     <h4>
         <label for="main_width">Main Width</label>
-        <input id="main_width" name="main_width" type="number" value="3" min="0" />
+        <input id="main_width" name="main_width" type="number" value="3" min="0" max="10" />
     </h4>
     <h4>
         <label for="main_height">Main Height</label>
-        <input id="main_height" name="main_height" type="number" value="5" />
+        <input id="main_height" name="main_height" type="number" value="5" min="0" max="10" />
     </h4>
 
     <h4>
         <label for="rect_width">Rect Width</label>
-        <input id="rect_width" name="rect_width" type="number" value="1" />
+        <input id="rect_width" name="rect_width" type="number" value="2" min="0" max="10" />
     </h4>
     <h4>
         <label for="rect_height">Rect Width</label>
-        <input id="rect_height" name="rect_height" type="number" value="2" />
+        <input id="rect_height" name="rect_height" type="number" value="1" min="0" max="10" />
     </h4>
     <h4>
         <button type="submit" onclick="fillCanvas()">Llenar Canvas!</button>
