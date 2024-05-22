@@ -10,4 +10,6 @@ Basic Install
 
 $ pip install -r requirements.txt
 
+Running the project
+
 $ ./run_server.sh

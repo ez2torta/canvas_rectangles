@@ -1,17 +1,30 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <script>
+        // Ejemplo implementando el metodo POST:
+        async function getData(url = '') {
+            // Opciones por defecto estan marcadas con un *
+            const response = await fetch(url, {
+                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            });
+            return response.json(); // parses JSON response into native JavaScript objects
+        }
+        const getRectangleSolution = async (mainWidth, mainHeight, rectWidth, rectHeight) => {
+            return await getData(`http://0.0.0.0:8000/rectangle_problem/${mainWidth}/${mainHeight}/${rectWidth}/${rectHeight}`)
+        }
         const _ZOOM_FACTOR = 80
-        const rectangleList = [
-            { x: 0, y: 0, width: 2, height: 1, index: 0 },
-            { x: 0, y: 1, width: 2, height: 1, index: 1 },
-            { x: 0, y: 2, width: 2, height: 1, index: 2 },
-            { x: 0, y: 3, width: 2, height: 1, index: 3 },
-            { x: 0, y: 4, width: 2, height: 1, index: 4 },
-            { x: 2, y: 0, width: 1, height: 2, index: 5 },
-            { x: 2, y: 2, width: 1, height: 2, index: 6 },
-        ]
+        let rectangleList = []
         function drawMainRectangle(ctx, width, height) {
             // draws the main rectangle given the width and height
             ctx.beginPath();
@@ -21,10 +34,10 @@
             ctx.stroke();
         }
 
-        function fillRectangle(ctx, x, y, width, height, index) {
+        function fillRectangle(ctx, x, y, width, height) {
             ctx.beginPath();
             ctx.lineWidth = "1";
-            ctx.strokeStyle = index % 2 == 0 ? "red" : "blue";
+            ctx.strokeStyle = "lightgray";
             ctx.rect(x * _ZOOM_FACTOR, y * _ZOOM_FACTOR, width * _ZOOM_FACTOR, height * _ZOOM_FACTOR);
             ctx.stroke();
         }
@@ -37,9 +50,13 @@
             const rectWidth = document.getElementById("rect_width").value;
             const rectHeight = document.getElementById("rect_height").value;
             drawMainRectangle(ctx, mainWidth, mainHeight);
-            rectangleList.forEach(item => {
-                fillRectangle(ctx, item.x, item.y, item.width, item.height, item.index);
-            })
+            getRectangleSolution(mainWidth, mainHeight, rectWidth, rectHeight)
+                .then(rectangleList => {
+                    console.log(rectangleList); // JSON data parsed by `data.json()` call
+                    rectangleList.forEach(item => {
+                        fillRectangle(ctx, item.position.x, item.position.y, item.width, item.height);
+                    })
+                });
         }
 
     </script>
