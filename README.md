@@ -5,3 +5,9 @@ en el front usaré html canvas para probar que tan poderosa es esa herramienta q
 para el back usaré fastapi con pydantic (not ready yet)
 
 deseenme suerte
+
+Basic Install
+
+$ pip install -r requirements.txt
+
+$ ./run_server.sh
