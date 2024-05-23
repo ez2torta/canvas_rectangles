@@ -6,6 +6,31 @@ def test_basic_rectangle_usage():
     assert rectangle
 
 
+def test_get_number_using_normal():
+    big_rectangle = Rectangle(width=4, height=2)
+    small_rectangle = Rectangle(width=2, height=1)
+    problem = RectangleProblem(
+        big_rectangle=big_rectangle,
+        small_rectangle=small_rectangle,
+    )
+    problem_solution = problem.get_number_of_rectangles_for_normal()
+    fixed_solution = {"number_using_height": 2.0, "number_using_width": 2.0}
+    assert problem_solution == fixed_solution
+
+
+def test_get_number_using_rotated():
+    big_rectangle = Rectangle(width=4, height=2)
+    small_rectangle = Rectangle(width=2, height=1)
+    problem = RectangleProblem(
+        big_rectangle=big_rectangle,
+        small_rectangle=small_rectangle,
+    )
+    problem_solution = problem.get_number_of_rectangles_for_rotated()
+    fixed_solution = {"number_using_height": 1.0, "number_using_width": 4.0}
+
+    assert problem_solution == fixed_solution
+
+
 def test_basic_solution_for_basic_rectangle():
     big_rectangle = Rectangle(width=4, height=2)
     small_rectangle = Rectangle(width=2, height=1)
