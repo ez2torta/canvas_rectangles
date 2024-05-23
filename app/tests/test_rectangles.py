@@ -9,20 +9,23 @@ def test_basic_rectangle_usage():
 def test_basic_rectangle_to_tuple_list():
     rec_1 = Rectangle(width=3, height=2, position=RectanglePosition(x=0, y=1))
     rec_2 = Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=0))
-    assert rec_1.to_point_tuple_list() == [
-        (0, 1),
-        (0, 2),
-        (1, 1),
-        (1, 2),
-        (2, 1),
-        (2, 2),
-    ]
-    assert rec_2.to_point_tuple_list() == [
-        (1, 0),
-        (1, 1),
-    ]
+    assert rec_1.to_point_tuple_list() == set(
+        [
+            (0, 1),
+            (0, 2),
+            (1, 1),
+            (1, 2),
+            (2, 1),
+            (2, 2),
+        ]
+    )
 
-    
+    assert rec_2.to_point_tuple_list() == set(
+        [
+            (1, 0),
+            (1, 1),
+        ]
+    )
 
 
 def test_basic_rectangle_overlap():
@@ -109,7 +112,12 @@ def test_basic_solution_for_basic_rectangle():
         small_rectangle=small_rectangle,
     )
     problem_solution = problem.solve()
-
+    test_solution = [
+        Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=1)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=2, y=0)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=2, y=1)),
+    ]
     fixed_solution = [
         Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0)),
         Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=1)),
@@ -127,6 +135,14 @@ def test_fixed_solution_for_rectangle_problem():
         small_rectangle=small_rectangle,
     )
     problem_solution = problem.solve()
+    test_solution = [
+        Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=1)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=2)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=2, y=0)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=2, y=1)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=2, y=2)),
+    ]
 
     fixed_solution = [
         Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0)),

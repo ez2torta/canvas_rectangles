@@ -22,17 +22,18 @@ class Rectangle(BaseModel):
         return answer
 
     def to_point_tuple_list(self):
-        tuples = []
+        tuples = set()
         for i in range(self.position.x, self.position.x + self.width, 1):
             for j in range(self.position.y, self.position.y + self.height, 1):
                 # print(f"i = {i} j = {j} \n")
-                tuples.append((i, j))
+                tuples.add((i, j))
         return tuples
 
 
 class RectangleProblem(BaseModel):
     big_rectangle: Rectangle
     small_rectangle: Rectangle
+    solution: list[Rectangle] = []
 
     def get_number_of_rectangles_for_normal(self):
         b_width = self.big_rectangle.width
@@ -88,22 +89,44 @@ class RectangleProblem(BaseModel):
                 )
         return rectangles
 
+    def get_rectangles_for_rotated_offset(self):
+        b_width = self.big_rectangle.width
+        b_height = self.big_rectangle.height
+        s_width = self.small_rectangle.width
+        s_height = self.small_rectangle.height
+        rectangles = []
+        for i in range(b_width, 0, s_height):
+            for j in range(b_height, 0, s_width):
+                # print(f"i = {i} j = {j} \n")
+                rectangles.append(
+                    Rectangle(
+                        width=s_height,
+                        height=s_width,
+                        position=RectanglePosition(x=i, y=j),
+                    )
+                )
+        return rectangles
+
     def solve(self):
         final_rectangles = []
         normal_rectangles = self.get_rectangles_for_normal()
-        rotated_rectangles = self.get_rectangles_for_rotated()
+        rotated_rectangles = self.get_rectangles_for_rotated_offset()
+        # breakpoint()
         for rect in normal_rectangles:
+            # print(rect)
             big_overlap = self.big_rectangle.overlap_with_other_rectangle(rect)
             small_tuple_list = rect.to_point_tuple_list()
             if len(small_tuple_list) == len(big_overlap):
                 final_rectangles.append(rect)
+        final_tuple_list = set()
+        for rect in normal_rectangles:
+            final_tuple_list = final_tuple_list.union(rect.to_point_tuple_list())
+        # breakpoint()
         for rect in rotated_rectangles:
-            big_overlap = self.big_rectangle.overlap_with_other_rectangle(rect)
-            small_tuple_list = rect.to_point_tuple_list()
-            if len(big_overlap) == len(small_tuple_list):
-                # cabe dentro del rectángulo!
-                for r in final_rectangles:
-                    overlap_list = r.overlap_with_other_rectangle(rect)
-                    if len(overlap_list) == 0:
-                        final_rectangles.append(r)
+            tuple_list = rect.to_point_tuple_list()
+            # breakpoint()
+            difference = tuple_list.difference(final_tuple_list)
+            print(difference)
+            if difference:
+                final_rectangles.append(rect)
         return final_rectangles
