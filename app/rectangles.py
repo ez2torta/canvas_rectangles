@@ -89,18 +89,21 @@ class RectangleProblem(BaseModel):
         return rectangles
 
     def solve(self):
+        final_rectangles = []
         normal_rectangles = self.get_rectangles_for_normal()
         rotated_rectangles = self.get_rectangles_for_rotated()
-
-        solution = normal_rectangles
-
-        # solution = [
-        #     Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0)),
-        #     Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=1)),
-        #     Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=2)),
-        #     Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=3)),
-        #     Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=4)),
-        #     Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=0)),
-        #     Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=2)),
-        # ]
-        return solution
+        for rect in normal_rectangles:
+            big_overlap = self.big_rectangle.overlap_with_other_rectangle(rect)
+            small_tuple_list = rect.to_point_tuple_list()
+            if len(small_tuple_list) == len(big_overlap):
+                final_rectangles.append(rect)
+        for rect in rotated_rectangles:
+            big_overlap = self.big_rectangle.overlap_with_other_rectangle(rect)
+            small_tuple_list = rect.to_point_tuple_list()
+            if len(big_overlap) == len(small_tuple_list):
+                # cabe dentro del rectángulo!
+                for r in final_rectangles:
+                    overlap_list = r.overlap_with_other_rectangle(rect)
+                    if len(overlap_list) == 0:
+                        final_rectangles.append(r)
+        return final_rectangles
