@@ -16,6 +16,8 @@ class Rectangle(BaseModel):
     height: int
     position: RectanglePosition = RectanglePosition(x=0, y=0)
 
+    def overlap_with_other_rectangle(self, other):
+        raise NotImplementedError
 
 class RectangleProblem(BaseModel):
     big_rectangle: Rectangle
@@ -23,27 +25,57 @@ class RectangleProblem(BaseModel):
 
     def get_number_of_rectangles_for_normal(self):
         b_width = self.big_rectangle.width
-        s_width = self.small_rectangle.width
-        number_of_rectangles_using_width = b_width / s_width
         b_height = self.big_rectangle.height
+        s_width = self.small_rectangle.width
         s_height = self.small_rectangle.height
-        number_of_rectangles_using_height = b_height / s_height
-        return {
-            "number_using_width": number_of_rectangles_using_width,
-            "number_using_height": number_of_rectangles_using_height,
-        }
+        number_of_rectangles_using_width = int(b_width / s_width)
+        number_of_rectangles_using_height = int(b_height / s_height)
+        return (number_of_rectangles_using_width, number_of_rectangles_using_height)
 
     def get_number_of_rectangles_for_rotated(self):
         b_width = self.big_rectangle.width
-        s_width = self.small_rectangle.height
-        number_of_rectangles_using_width = b_width / s_width
         b_height = self.big_rectangle.height
-        s_height = self.small_rectangle.width
-        number_of_rectangles_using_height = b_height / s_height
-        return {
-            "number_using_width": number_of_rectangles_using_width,
-            "number_using_height": number_of_rectangles_using_height,
-        }
+        s_width = self.small_rectangle.width
+        s_height = self.small_rectangle.height
+        number_of_rectangles_using_width = int(b_width / s_height)
+        number_of_rectangles_using_height = int(b_height / s_width)
+        return (number_of_rectangles_using_width, number_of_rectangles_using_height)
+
+    def get_rectangles_for_normal(self):
+        # width, height = self.get_number_of_rectangles_for_normal()
+        b_width = self.big_rectangle.width
+        b_height = self.big_rectangle.height
+        s_width = self.small_rectangle.width
+        s_height = self.small_rectangle.height
+        rectangles = []
+        for i in range(0, b_width, s_width):
+            for j in range(0, b_height, s_height):
+                rectangles.append(
+                    Rectangle(
+                        width=s_width,
+                        height=s_height,
+                        position=RectanglePosition(x=i, y=j),
+                    )
+                )
+        return rectangles
+
+    def get_rectangles_for_rotated(self):
+        b_width = self.big_rectangle.width
+        b_height = self.big_rectangle.height
+        s_width = self.small_rectangle.width
+        s_height = self.small_rectangle.height
+        rectangles = []
+        for i in range(0, b_width, s_height):
+            for j in range(0, b_height, s_width):
+                rectangles.append(
+                    Rectangle(
+                        width=s_height,
+                        height=s_width,
+                        position=RectanglePosition(x=i, y=j),
+                    )
+                )
+        return rectangles
+
 
     def solve(self):
         solution = [
