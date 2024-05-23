@@ -17,7 +17,18 @@ class Rectangle(BaseModel):
     position: RectanglePosition = RectanglePosition(x=0, y=0)
 
     def overlap_with_other_rectangle(self, other):
-        raise NotImplementedError
+        set_1 = set(self.to_point_tuple_list())
+        answer = set_1.intersection(other.to_point_tuple_list())
+        return answer
+
+    def to_point_tuple_list(self):
+        tuples = []
+        for i in range(self.position.x, self.position.x + self.width, 1):
+            for j in range(self.position.y, self.position.y + self.height, 1):
+                # print(f"i = {i} j = {j} \n")
+                tuples.append((i, j))
+        return tuples
+
 
 class RectangleProblem(BaseModel):
     big_rectangle: Rectangle
@@ -67,6 +78,7 @@ class RectangleProblem(BaseModel):
         rectangles = []
         for i in range(0, b_width, s_height):
             for j in range(0, b_height, s_width):
+                # print(f"i = {i} j = {j} \n")
                 rectangles.append(
                     Rectangle(
                         width=s_height,
@@ -76,15 +88,19 @@ class RectangleProblem(BaseModel):
                 )
         return rectangles
 
-
     def solve(self):
-        solution = [
-            Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0)),
-            Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=1)),
-            Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=2)),
-            Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=3)),
-            Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=4)),
-            Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=0)),
-            Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=2)),
-        ]
+        normal_rectangles = self.get_rectangles_for_normal()
+        rotated_rectangles = self.get_rectangles_for_rotated()
+
+        solution = normal_rectangles
+
+        # solution = [
+        #     Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0)),
+        #     Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=1)),
+        #     Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=2)),
+        #     Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=3)),
+        #     Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=4)),
+        #     Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=0)),
+        #     Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=2)),
+        # ]
         return solution
