@@ -16,18 +16,18 @@ class Rectangle(BaseModel):
     height: int
     position: RectanglePosition = RectanglePosition(x=0, y=0)
 
-    def overlap_with_other_rectangle(self, other):
-        set_1 = set(self.to_point_tuple_list())
-        answer = set_1.intersection(other.to_point_tuple_list())
-        return answer
+    def overlap_with_other(self, other):
+        if (self.position.x + self.width <= other.position.x) or (
+            self.position.y + self.height <= other.position.y
+        ):
+            return False
 
-    def to_point_tuple_list(self):
-        tuples = set()
-        for i in range(self.position.x, self.position.x + self.width, 1):
-            for j in range(self.position.y, self.position.y + self.height, 1):
-                # print(f"i = {i} j = {j} \n")
-                tuples.add((i, j))
-        return tuples
+        if (other.position.x + other.width <= self.position.x) or (
+            other.position.y + other.height <= self.position.y
+        ):
+            return False
+
+        return True
 
 
 class RectangleProblem(BaseModel):
@@ -111,22 +111,7 @@ class RectangleProblem(BaseModel):
         final_rectangles = []
         normal_rectangles = self.get_rectangles_for_normal()
         rotated_rectangles = self.get_rectangles_for_rotated_offset()
-        # breakpoint()
         for rect in normal_rectangles:
-            # print(rect)
-            big_overlap = self.big_rectangle.overlap_with_other_rectangle(rect)
-            small_tuple_list = rect.to_point_tuple_list()
-            if len(small_tuple_list) == len(big_overlap):
-                final_rectangles.append(rect)
-        final_tuple_list = set()
-        for rect in normal_rectangles:
-            final_tuple_list = final_tuple_list.union(rect.to_point_tuple_list())
-        # breakpoint()
-        for rect in rotated_rectangles:
-            tuple_list = rect.to_point_tuple_list()
-            # breakpoint()
-            difference = tuple_list.difference(final_tuple_list)
-            print(difference)
-            if difference:
-                final_rectangles.append(rect)
+            big_overlap = self.big_rectangle.overlap_with_other(rect)
+            final_rectangles.append(rect)
         return final_rectangles

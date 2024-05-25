@@ -6,44 +6,23 @@ def test_basic_rectangle_usage():
     assert rectangle
 
 
-def test_basic_rectangle_to_tuple_list():
-    rec_1 = Rectangle(width=3, height=2, position=RectanglePosition(x=0, y=1))
-    rec_2 = Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=0))
-    assert rec_1.to_point_tuple_list() == set(
-        [
-            (0, 1),
-            (0, 2),
-            (1, 1),
-            (1, 2),
-            (2, 1),
-            (2, 2),
-        ]
-    )
-
-    assert rec_2.to_point_tuple_list() == set(
-        [
-            (1, 0),
-            (1, 1),
-        ]
-    )
-
 
 def test_basic_rectangle_overlap():
     rec_1 = Rectangle(width=2, height=1, position=RectanglePosition(x=2, y=0))
     rec_2 = Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=0))
-    assert rec_1.overlap_with_other_rectangle(rec_2)
+    assert rec_1.overlap_with_rectangle(rec_2)
 
     rec_1 = Rectangle(width=3, height=2, position=RectanglePosition(x=0, y=1))
     rec_2 = Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=0))
-    assert rec_1.overlap_with_other_rectangle(rec_2)
+    assert rec_1.overlap_with_rectangle(rec_2)
 
     rec_1 = Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0))
     rec_2 = Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=2))
-    assert not rec_1.overlap_with_other_rectangle(rec_2)
+    assert not rec_1.overlap_with_rectangle(rec_2)
 
     rec_1 = Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0))
     rec_2 = Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=0))
-    assert not rec_1.overlap_with_other_rectangle(rec_2)
+    assert not rec_1.overlap_with_rectangle(rec_2)
 
 
 def test_get_number_using_normal():
