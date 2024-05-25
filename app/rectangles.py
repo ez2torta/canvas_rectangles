@@ -108,10 +108,13 @@ class RectangleProblem(BaseModel):
         return rectangles
 
     def solve(self):
-        final_rectangles = []
         normal_rectangles = self.get_rectangles_for_normal()
         rotated_rectangles = self.get_rectangles_for_rotated_offset()
         for rect in normal_rectangles:
-            big_overlap = self.big_rectangle.overlap_with_other(rect)
-            final_rectangles.append(rect)
-        return final_rectangles
+            self.big_rectangle.overlap_with_other(rect)
+            self.solution.append(rect)
+        for rect in rotated_rectangles:
+            overlaps = [r.overlap_with_other(rect) for r in normal_rectangles]
+            if len(overlaps) == 0:
+                self.solution.append(rect)
+        return self.solution
