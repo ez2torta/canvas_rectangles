@@ -3,28 +3,25 @@
 
 <head>
     <script>
-        // Ejemplo implementando el metodo POST:
+        const _ZOOM_FACTOR = 80
+
         async function getData(url = '') {
-            // Opciones por defecto estan marcadas con un *
             const response = await fetch(url, {
-                method: 'GET', // *GET, POST, PUT, DELETE, etc.
-                mode: 'cors', // no-cors, *cors, same-origin
-                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: 'same-origin', // include, *same-origin, omit
+                method: 'GET',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json'
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                redirect: 'follow', // manual, *follow, error
-                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
             });
-            return response.json(); // parses JSON response into native JavaScript objects
+            return response.json();
         }
         const getRectangleSolution = async (mainWidth, mainHeight, rectWidth, rectHeight) => {
             return await getData(`http://0.0.0.0:8000/rectangle_problem/${mainWidth}/${mainHeight}/${rectWidth}/${rectHeight}`)
         }
-        const _ZOOM_FACTOR = 80
-        let rectangleList = []
         function drawMainRectangle(ctx, width, height) {
             // draws the main rectangle given the width and height
             ctx.beginPath();
@@ -41,6 +38,12 @@
             ctx.rect(x * _ZOOM_FACTOR, y * _ZOOM_FACTOR, width * _ZOOM_FACTOR, height * _ZOOM_FACTOR);
             ctx.stroke();
         }
+        function loadingCount() {
+            document.getElementById("rectangle_count").innerText = "Loading Answer, please wait"
+        }
+        function fillCount(rectangleList) {
+            document.getElementById("rectangle_count").innerText = `There are ${rectangleList.length} Rectangles!`
+        }
         function fillCanvas() {
             const canvas = document.getElementById("canvas");
             const ctx = canvas.getContext("2d");
@@ -50,9 +53,10 @@
             const rectWidth = document.getElementById("rect_width").value;
             const rectHeight = document.getElementById("rect_height").value;
             drawMainRectangle(ctx, mainWidth, mainHeight);
+            loadingCount();
             getRectangleSolution(mainWidth, mainHeight, rectWidth, rectHeight)
                 .then(rectangleList => {
-                    console.log(rectangleList); // JSON data parsed by `data.json()` call
+                    fillCount(rectangleList);
                     rectangleList.forEach(item => {
                         fillRectangle(ctx, item.position.x, item.position.y, item.width, item.height);
                     })
@@ -77,12 +81,13 @@
         <input id="rect_width" name="rect_width" type="number" value="2" min="0" max="10" />
     </h4>
     <h4>
-        <label for="rect_height">Rect Width</label>
+        <label for="rect_height">Rect Height</label>
         <input id="rect_height" name="rect_height" type="number" value="1" min="0" max="10" />
     </h4>
     <h4>
         <button type="submit" onclick="fillCanvas()">Llenar Canvas!</button>
     </h4>
+    <h2 id="rectangle_count"></h2>
     <canvas id="canvas" width="640" height="480">No Canvas?</canvas>
 
 </body>
