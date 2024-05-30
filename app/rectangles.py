@@ -71,6 +71,20 @@ class RectangleProblem(BaseModel):
                 )
         return rectangles
 
+    def get_rectangles_for_normal_with_offset(self, offset_x, offset_y):
+        normal_rectangles = self.get_rectangles_for_normal()
+        offset_rectangles = [
+            Rectangle(
+                width=r.width,
+                height=r.height,
+                position=RectanglePosition(
+                    x=r.position.x + offset_x, y=r.position.y + offset_y
+                ),
+            )
+            for r in normal_rectangles
+        ]
+        return offset_rectangles
+
     def get_rectangles_for_rotated(self):
         b_width = self.big_rectangle.width
         b_height = self.big_rectangle.height
@@ -89,32 +103,31 @@ class RectangleProblem(BaseModel):
                 )
         return rectangles
 
-    def get_rectangles_for_rotated_offset(self):
-        b_width = self.big_rectangle.width
-        b_height = self.big_rectangle.height
-        s_width = self.small_rectangle.width
-        s_height = self.small_rectangle.height
-        rectangles = []
-        for i in range(b_width, 0, s_height):
-            for j in range(b_height, 0, s_width):
-                # print(f"i = {i} j = {j} \n")
-                rectangles.append(
-                    Rectangle(
-                        width=s_height,
-                        height=s_width,
-                        position=RectanglePosition(x=i, y=j),
-                    )
-                )
-        return rectangles
+    def get_rectangles_for_rotated_with_offset(
+        self, offset_x: int = 0, offset_y: int = 0
+    ):
+        rotated_rectangles = self.get_rectangles_for_rotated()
+        offset_rectangles = [
+            Rectangle(
+                width=r.width,
+                height=r.height,
+                position=RectanglePosition(
+                    x=r.position.x + offset_x, y=r.position.y + offset_y
+                ),
+            )
+            for r in rotated_rectangles
+        ]
+        return offset_rectangles
 
     def solve(self):
         normal_rectangles = self.get_rectangles_for_normal()
-        rotated_rectangles = self.get_rectangles_for_rotated_offset()
+        rotated_rectangles = self.get_rectangles_for_rotated()
         for rect in normal_rectangles:
-            self.big_rectangle.overlap_with_other(rect)
-            self.solution.append(rect)
+            overlaps = [r.overlap_with_other(rect) for r in self.solution]
+            if len(overlaps) == 0:
+                self.solution.append(rect)
         for rect in rotated_rectangles:
             overlaps = [r.overlap_with_other(rect) for r in normal_rectangles]
-            if len(overlaps) == 0:
+            if len(overlaps) == 0 and rect.overlap_with_other(self.big_rectangle):
                 self.solution.append(rect)
         return self.solution

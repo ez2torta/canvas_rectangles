@@ -6,7 +6,6 @@ def test_basic_rectangle_usage():
     assert rectangle
 
 
-
 def test_basic_rectangle_overlap():
     rec_1 = Rectangle(width=2, height=1, position=RectanglePosition(x=2, y=0))
     rec_2 = Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=0))
@@ -53,18 +52,19 @@ def test_get_number_using_rotated():
 def test_get_rectangles_for_normal():
     big_rectangle = Rectangle(width=4, height=2)
     small_rectangle = Rectangle(width=2, height=1)
-
     problem = RectangleProblem(
         big_rectangle=big_rectangle,
         small_rectangle=small_rectangle,
     )
-    rectangles = problem.get_rectangles_for_normal()
-    assert rectangles == [
+    problem_solution = problem.get_rectangles_for_normal()
+    fixed_solution = [
         Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0)),
         Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=1)),
         Rectangle(width=2, height=1, position=RectanglePosition(x=2, y=0)),
         Rectangle(width=2, height=1, position=RectanglePosition(x=2, y=1)),
     ]
+    # breakpoint()
+    assert problem_solution == fixed_solution
 
 
 def test_get_rectangles_for_rotated():
@@ -74,13 +74,112 @@ def test_get_rectangles_for_rotated():
         big_rectangle=big_rectangle,
         small_rectangle=small_rectangle,
     )
-    rectangles = problem.get_rectangles_for_rotated()
-    assert rectangles == [
+    problem_solution = problem.get_rectangles_for_rotated()
+    fixed_solution = [
         Rectangle(width=1, height=2, position=RectanglePosition(x=0, y=0)),
         Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=0)),
         Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=0)),
         Rectangle(width=1, height=2, position=RectanglePosition(x=3, y=0)),
     ]
+    # breakpoint()
+    assert problem_solution == fixed_solution
+
+
+def test_get_rectangles_for_rotated_with_offset():
+    big_rectangle = Rectangle(width=4, height=2)
+    small_rectangle = Rectangle(width=2, height=1)
+    problem = RectangleProblem(
+        big_rectangle=big_rectangle,
+        small_rectangle=small_rectangle,
+    )
+    problem_solution = problem.get_rectangles_for_rotated_with_offset()
+    fixed_solution = [
+        Rectangle(width=1, height=2, position=RectanglePosition(x=0, y=0)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=0)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=0)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=3, y=0)),
+    ]
+    # breakpoint()
+    assert problem_solution == fixed_solution
+
+
+def test_different_get_rectangles_for_normal():
+    big_rectangle = Rectangle(width=2, height=4)
+    small_rectangle = Rectangle(width=2, height=1)
+    problem = RectangleProblem(
+        big_rectangle=big_rectangle,
+        small_rectangle=small_rectangle,
+    )
+    problem_solution = problem.get_rectangles_for_normal()
+    fixed_solution = [
+        Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=0)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=1)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=2)),
+        Rectangle(width=2, height=1, position=RectanglePosition(x=0, y=3)),
+    ]
+    # breakpoint()
+    assert problem_solution == fixed_solution
+
+
+def test_different_get_rectangles_for_rotated():
+    big_rectangle = Rectangle(width=2, height=4)
+    small_rectangle = Rectangle(width=2, height=1)
+    problem = RectangleProblem(
+        big_rectangle=big_rectangle,
+        small_rectangle=small_rectangle,
+    )
+    problem_solution = problem.get_rectangles_for_rotated()
+    fixed_solution = [
+        Rectangle(width=1, height=2, position=RectanglePosition(x=0, y=0)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=0, y=2)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=0)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=2)),
+    ]
+    # breakpoint()
+    assert problem_solution == fixed_solution
+
+
+def test_different_get_rectangles_for_rotated_with_offset():
+    big_rectangle = Rectangle(width=2, height=4)
+    small_rectangle = Rectangle(width=2, height=1)
+    problem = RectangleProblem(
+        big_rectangle=big_rectangle,
+        small_rectangle=small_rectangle,
+    )
+
+    problem_solution = problem.get_rectangles_for_rotated_with_offset()
+    fixed_solution = problem.get_rectangles_for_rotated()
+    # breakpoint()
+    assert problem_solution == fixed_solution
+
+    problem_solution = problem.get_rectangles_for_rotated_with_offset()
+    fixed_solution = [
+        Rectangle(width=1, height=2, position=RectanglePosition(x=0, y=0)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=0, y=2)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=0)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=2)),
+    ]
+    assert problem_solution == fixed_solution
+
+    problem_solution = problem.get_rectangles_for_rotated_with_offset(offset_x=1)
+    fixed_solution = [
+        Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=0)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=2)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=0)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=2)),
+    ]
+    # breakpoint()
+    assert problem_solution == fixed_solution
+
+    problem_solution = problem.get_rectangles_for_rotated_with_offset(offset_y=1)
+    fixed_solution = [
+        Rectangle(width=1, height=2, position=RectanglePosition(x=0, y=1)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=0, y=3)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=1)),
+        Rectangle(width=1, height=2, position=RectanglePosition(x=1, y=3)),
+    ]
+    # breakpoint()
+    assert problem_solution == fixed_solution
 
 
 def test_basic_solution_for_basic_rectangle():
@@ -132,4 +231,5 @@ def test_fixed_solution_for_rectangle_problem():
         Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=0)),
         Rectangle(width=1, height=2, position=RectanglePosition(x=2, y=2)),
     ]
+
     assert problem_solution == fixed_solution
