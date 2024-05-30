@@ -95,7 +95,6 @@ class RectangleProblem(BaseModel):
         rectangles = []
         for i in range(0, b_width, s_height):
             for j in range(0, b_height, s_width):
-                # print(f"i = {i} j = {j} \n")
                 rectangles.append(
                     Rectangle(
                         width=s_height,
