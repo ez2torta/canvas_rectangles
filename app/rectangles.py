@@ -53,7 +53,7 @@ class RectangleProblem(BaseModel):
         number_of_rectangles_using_height = int(b_height / s_width)
         return (number_of_rectangles_using_width, number_of_rectangles_using_height)
 
-    def get_rectangles_for_normal(self):
+    def get_rectangles_for_normal(self) -> list[Rectangle]:
         # width, height = self.get_number_of_rectangles_for_normal()
         b_width = self.big_rectangle.width
         b_height = self.big_rectangle.height
@@ -71,7 +71,9 @@ class RectangleProblem(BaseModel):
                 )
         return rectangles
 
-    def get_rectangles_for_normal_with_offset(self, offset_x, offset_y):
+    def get_rectangles_for_normal_with_offset(
+        self, offset_x, offset_y
+    ) -> list[Rectangle]:
         normal_rectangles = self.get_rectangles_for_normal()
         offset_rectangles = [
             Rectangle(
@@ -85,7 +87,7 @@ class RectangleProblem(BaseModel):
         ]
         return offset_rectangles
 
-    def get_rectangles_for_rotated(self):
+    def get_rectangles_for_rotated(self) -> list[Rectangle]:
         b_width = self.big_rectangle.width
         b_height = self.big_rectangle.height
         s_width = self.small_rectangle.width
@@ -105,7 +107,7 @@ class RectangleProblem(BaseModel):
 
     def get_rectangles_for_rotated_with_offset(
         self, offset_x: int = 0, offset_y: int = 0
-    ):
+    ) -> list[Rectangle]:
         rotated_rectangles = self.get_rectangles_for_rotated()
         offset_rectangles = [
             Rectangle(
@@ -119,15 +121,33 @@ class RectangleProblem(BaseModel):
         ]
         return offset_rectangles
 
+    def add_to_solution(self, rect: Rectangle):
+        overlaps_with_solution = any(r.overlap_with_other(rect) for r in self.solution)
+        overlaps_with_big_rectangle = rect.overlap_with_other(self.big_rectangle)
+        exceeds_big_rectangle = (
+            rect.position.x + rect.width > self.big_rectangle.width
+        ) or (rect.position.y + rect.height > self.big_rectangle.height)
+        if (
+            not overlaps_with_solution
+            and overlaps_with_big_rectangle
+            and not exceeds_big_rectangle
+        ):
+            self.solution.append(rect)
+
     def solve(self):
-        normal_rectangles = self.get_rectangles_for_normal()
-        rotated_rectangles = self.get_rectangles_for_rotated()
-        for rect in normal_rectangles:
-            overlaps = [r.overlap_with_other(rect) for r in self.solution]
-            if len(overlaps) == 0:
-                self.solution.append(rect)
-        for rect in rotated_rectangles:
-            overlaps = [r.overlap_with_other(rect) for r in normal_rectangles]
-            if len(overlaps) == 0 and rect.overlap_with_other(self.big_rectangle):
-                self.solution.append(rect)
+        for i in [0, 1]:
+            for j in [0, 1]:
+                offset_rectangles = self.get_rectangles_for_normal_with_offset(
+                    offset_x=i, offset_y=j
+                )
+                for rect in offset_rectangles:
+                    self.add_to_solution(rect)
+        for i in [0, 1]:
+            for j in [0, 1]:
+                offset_rectangles = self.get_rectangles_for_rotated_with_offset(
+                    offset_x=i, offset_y=j
+                )
+                for rect in offset_rectangles:
+                    self.add_to_solution(rect)
+
         return self.solution
