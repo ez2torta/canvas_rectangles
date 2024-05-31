@@ -4,7 +4,7 @@
 <head>
     <script>
         const _ZOOM_FACTOR = 80
-
+        const apiURL = window. location.href;
         async function getData(url = '') {
             const response = await fetch(url, {
                 method: 'GET',
@@ -20,7 +20,7 @@
             return response.json();
         }
         const getRectangleSolution = async (mainWidth, mainHeight, rectWidth, rectHeight) => {
-            return await getData(`http://0.0.0.0:8000/rectangle_problem/${mainWidth}/${mainHeight}/${rectWidth}/${rectHeight}`)
+            return await getData(`${apiURL}rectangle_problem/${mainWidth}/${mainHeight}/${rectWidth}/${rectHeight}`)
         }
         function drawMainRectangle(ctx, width, height) {
             // draws the main rectangle given the width and height
@@ -88,7 +88,7 @@
         <button type="submit" onclick="fillCanvas()">Llenar Canvas!</button>
     </h4>
     <h2 id="rectangle_count"></h2>
-    <canvas id="canvas" width="640" height="480">No Canvas?</canvas>
+    <canvas id="canvas" width="720" height="720">No Canvas?</canvas>
 
 </body>
 
