@@ -4,7 +4,7 @@
 <head>
     <script>
         const _ZOOM_FACTOR = 80
-        const apiURL = window. location.href;
+        const apiURL = window.location.href;
         async function getData(url = '') {
             const response = await fetch(url, {
                 method: 'GET',
@@ -44,6 +44,55 @@
         function fillCount(rectangleList) {
             document.getElementById("rectangle_count").innerText = `There are ${rectangleList.length} Rectangles!`
         }
+        function drawImage(ctx, image_src) {
+            // draws image at 0,0
+            const img = new Image();
+            img.src = image_src;
+            img.onload = () => { ctx.drawImage(img, 0, 0); };
+        }
+        function drawImageCropped(ctx, image_src, dx, dy, dwidth, dheight) {
+            // draws image at 0,0
+            const image = new Image();
+            image.src = image_src;
+            image.onload = () => {
+                // documentation https://www.freecodecamp.org/news/how-displaying-an-image-on-html5-canvas-works-13e3f6a6c4bd/
+                // ctx.drawImage(image, sx, sy, swidth, sheight, dx, dy, dwidth, dheight)
+                // img 	Specifies the image, canvas, or video element to use 	 
+                // sx 	Optional. The x coordinate where to start clipping 	
+                // sy 	Optional. The y coordinate where to start clipping 	
+                // swidth 	Optional. The width of the clipped image 	
+                // sheight 	Optional. The height of the clipped image 	
+                // x 	The x coordinate where to place the image on the canvas 	
+                // y 	The y coordinate where to place the image on the canvas 	
+                // width 	Optional. The width of the image to use (stretch or reduce the image) 	
+                // height 	Optional. The height of the image to use (stretch or reduce the image)
+                ctx.drawImage(image, 0, 0, 512, 512, dx, dy, dwidth, dheight);
+            };
+        }
+
+        function drawSprite(ctx) {
+            // Mario variables 
+            const MARIO_WIDTH = 68;
+            const MARIO_HEIGHT = 68;
+            const mario = new Image();
+            mario.src = './supazulu/ryu.png';
+            mario.onload = () => {
+                ctx.drawImage(     // Image
+                    mario,
+                    // ---- Selection ----
+                    0, // sx
+                    MARIO_HEIGHT * 2, // sy
+                    MARIO_WIDTH, // sWidth
+                    MARIO_HEIGHT, // sHeight
+                    // ---- Drawing ----
+                    0, // dx
+                    0, // dy 
+                    MARIO_WIDTH, // dWidth
+                    MARIO_HEIGHT // dHeight
+                );
+            };
+        }
+
         function fillCanvas() {
             const canvas = document.getElementById("canvas");
             const ctx = canvas.getContext("2d");
@@ -52,15 +101,8 @@
             const mainHeight = document.getElementById("main_height").value;
             const rectWidth = document.getElementById("rect_width").value;
             const rectHeight = document.getElementById("rect_height").value;
-            drawMainRectangle(ctx, mainWidth, mainHeight);
-            loadingCount();
-            getRectangleSolution(mainWidth, mainHeight, rectWidth, rectHeight)
-                .then(rectangleList => {
-                    fillCount(rectangleList);
-                    rectangleList.forEach(item => {
-                        fillRectangle(ctx, item.position.x, item.position.y, item.width, item.height);
-                    })
-                });
+            // drawImageCropped(ctx, "./scream.png", mainWidth * 10, mainHeight * 10, rectWidth * 10, rectHeight * 10)
+            drawSprite(ctx)
         }
 
     </script>
@@ -87,6 +129,7 @@
     <h4>
         <button type="submit" onclick="fillCanvas()">Llenar Canvas!</button>
     </h4>
+    <!-- <img id="scream" src="./scream.png" style="display: none;"> -->
     <h2 id="rectangle_count"></h2>
     <canvas id="canvas" width="720" height="720">No Canvas?</canvas>
 
