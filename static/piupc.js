@@ -370,8 +370,8 @@ const fillLogo = () => {
   logo02.forEach((item) => {
     fillCanvas(item);
   });
+
+  adre.forEach(item => {
+    fillCanvas(item)
+  })
 };
-
-const fillBackground = () => {
-
-}
