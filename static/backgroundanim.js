@@ -240,26 +240,23 @@ const backgroundAnimationList = [
 
     function bgLoop() {
         window.requestAnimationFrame(bgLoop);
-
         bg.update();
         bg.render();
     }
 
     function backgroundAnimation(options) {
 
-        var that = {},
-            frameIndex = 0,
-            tickCount = 0,
-            ticksPerFrame = options.ticksPerFrame || 0;
+        let that = {};
+        let frameIndex = 0;
+        let tickCount = 0;
+        let ticksPerFrame = options.ticksPerFrame || 0;
         that.animationList = options.animationList;
         that.numberOfFrames = that.animationList.length;
         that.context = options.context;
         that.sprite = options.sprite;
 
         that.update = function () {
-
             tickCount += 1;
-
             if (tickCount > ticksPerFrame) {
 
                 tickCount = 0;
@@ -277,11 +274,17 @@ const backgroundAnimationList = [
         that.render = function () {
             const { url, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight } = that.animationList[frameIndex];
 
-            // Clear the canvas
-            that.context.clearRect(0, 0, 640, 480);
-            bgImage.src = url;
-            that.context.drawImage(bgImage, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-            console.log("bgimage src", bgImage.src)
+            const oldSrc = bgImage.src
+            if (oldSrc !== url) {
+                // Clear the canvas
+                that.context.clearRect(0, 0, 640, 480);
+                bgImage.src = url;
+                that.context.drawImage(bgImage, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+                console.log("New bgimage src", bgImage.src)
+            }
+            else {
+                console.log("same url")
+            }
         };
 
         return that;
@@ -297,7 +300,7 @@ const backgroundAnimationList = [
     bg = backgroundAnimation({
         context: canvas.getContext("2d"),
         animationList: backgroundAnimationList,
-        ticksPerFrame: 10
+        ticksPerFrame: 20
     });
 
     // Load sprite sheet
