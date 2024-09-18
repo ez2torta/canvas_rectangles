@@ -234,13 +234,12 @@ const backgroundAnimationList = [
 
 (function () {
 
-    var bg,
-        bgImage,
-        canvas;
+    let bg;
+    let bgImage;
+    let canvas;
 
-    function gameLoop() {
-        console.log("el gameloop")
-        window.requestAnimationFrame(gameLoop);
+    function bgLoop() {
+        window.requestAnimationFrame(bgLoop);
 
         bg.update();
         bg.render();
@@ -252,7 +251,6 @@ const backgroundAnimationList = [
             frameIndex = 0,
             tickCount = 0,
             ticksPerFrame = options.ticksPerFrame || 0;
-        // numberOfFrames = options.numberOfFrames || 1;
         that.animationList = options.animationList;
         that.numberOfFrames = that.animationList.length;
         that.context = options.context;
@@ -267,7 +265,7 @@ const backgroundAnimationList = [
                 tickCount = 0;
 
                 // If the current frame index is in range
-                if (frameIndex < numberOfFrames - 1) {
+                if (frameIndex < that.numberOfFrames - 1) {
                     // Go to the next frame
                     frameIndex += 1;
                 } else {
@@ -277,11 +275,13 @@ const backgroundAnimationList = [
         };
 
         that.render = function () {
+            const { url, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight } = that.animationList[frameIndex];
 
             // Clear the canvas
             that.context.clearRect(0, 0, 640, 480);
+            bgImage.src = url;
             that.context.drawImage(bgImage, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-            bgImage.src = that.animationList[frameIndex];
+            console.log("bgimage src", bgImage.src)
         };
 
         return that;
@@ -297,11 +297,11 @@ const backgroundAnimationList = [
     bg = backgroundAnimation({
         context: canvas.getContext("2d"),
         animationList: backgroundAnimationList,
-        numberOfFrames: 10,
-        ticksPerFrame: 4
+        ticksPerFrame: 10
     });
 
     // Load sprite sheet
-    bgImage.addEventListener("load", gameLoop);
+    bgImage.addEventListener("load", bgLoop);
+    bgImage.src = backgroundAnimationList[0].url;
 
 }());

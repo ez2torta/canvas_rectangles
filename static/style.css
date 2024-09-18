@@ -13,11 +13,11 @@
 }
 
 #coinAnimation {
-    width: 100px;
-    height: 100px;
+    width: 640px;
+    height: 480px;
     position: absolute;
-    top: 30;
-    left: 30;
+    top: 0;
+    left: 0;
 }
 
 #bgCanvas {
