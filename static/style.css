@@ -1,0 +1,29 @@
+#canvas_container {
+    width: 640px;
+    height: 480px;
+    position: relative;
+}
+
+#myCanvas {
+    width: 640px;
+    height: 480px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#coinAnimation {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 30;
+    left: 30;
+}
+
+#bgCanvas {
+    width: 640px;
+    height: 480px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}

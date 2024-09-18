@@ -1,13 +1,21 @@
 <html>
-  <head>
-    <title>Mi pequeño homenaje</title>
-  </head>
-  <body>
-    <!-- <canvas id="myCanvas" width="640" height="480"></canvas> -->
-    <canvas id="coinAnimation" width="100" height="100"></canvas>
 
-    <button onclick="fillLogo();">start?</button>
-    <script src="spriteanim.js"></script>
-    <script src="piupc.js"></script>
-  </body>
+<head>
+  <title>Mi pequeño homenaje</title>
+  <link href="style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="canvas_container">
+    <canvas id="myCanvas" width="640" height="480"></canvas>
+    <canvas id="coinAnimation" width="640" height="480"></canvas>
+    <canvas id="bgCanvas" width="640" height="480"></canvas>
+  </div>
+  <button onclick="fillLogo();">start?</button>
+  <script src="backgroundanim.js"></script>
+  <script src="spriteanim.js"></script>
+  <script src="piupc.js"></script>
+  
+</body>
+
 </html>
