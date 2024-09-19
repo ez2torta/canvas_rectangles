@@ -232,79 +232,57 @@ const backgroundAnimationList = [
     },
 ];
 
-(function () {
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
 
-    let bg;
-    let bgImage;
-    let canvas;
+// Load your PNG images
+const images = [];
+let loadedImagesCount = 0;
 
-    function bgLoop() {
-        window.requestAnimationFrame(bgLoop);
-        bg.update();
-        bg.render();
-    }
-
-    function backgroundAnimation(options) {
-
-        let that = {};
-        let frameIndex = 0;
-        let tickCount = 0;
-        let ticksPerFrame = options.ticksPerFrame || 0;
-        that.animationList = options.animationList;
-        that.numberOfFrames = that.animationList.length;
-        that.context = options.context;
-        that.sprite = options.sprite;
-
-        that.update = function () {
-            tickCount += 1;
-            if (tickCount > ticksPerFrame) {
-
-                tickCount = 0;
-
-                // If the current frame index is in range
-                if (frameIndex < that.numberOfFrames - 1) {
-                    // Go to the next frame
-                    frameIndex += 1;
-                } else {
-                    frameIndex = 0;
-                }
+// Function to load images
+function loadImages() {
+    backgroundAnimationList.forEach((data, index) => {
+        const img = new Image();
+        img.src = data.url;
+        img.onload = () => {
+            // console.log("image on load", img)
+            backgroundAnimationList[index].img = img
+            loadedImagesCount++;
+            if (loadedImagesCount === backgroundAnimationList.length) {
+                requestAnimationFrame(animate);
             }
         };
-
-        that.render = function () {
-            const { url, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight } = that.animationList[frameIndex];
-
-            const oldSrc = bgImage.src
-            if (oldSrc !== url) {
-                // Clear the canvas
-                that.context.clearRect(0, 0, 640, 480);
-                bgImage.src = url;
-                that.context.drawImage(bgImage, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-                console.log("New bgimage src", bgImage.src)
-            }
-            else {
-                console.log("same url")
-            }
-        };
-
-        return that;
-    }
-
-    // Get canvas
-    canvas = document.getElementById("bgCanvas");
-
-    // Create sprite sheet
-    bgImage = new Image();
-
-    // Create sprite
-    bg = backgroundAnimation({
-        context: canvas.getContext("2d"),
-        animationList: backgroundAnimationList,
-        ticksPerFrame: 20
     });
+}
 
-    // Load sprite sheet
-    bgImage.addEventListener("load", bgLoop);
-    bgImage.src = backgroundAnimationList[0].url;
+// Animation variables
+let currentIndex = 0;
+const frameRate = 60; // Adjust for speed
+const changeInterval = 100; // Change image every 2 seconds
+let lastChangeTime = 0;
 
-}());
+
+// Animation function
+function animate(timestamp) {
+    const totalImages = backgroundAnimationList.length;
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Update the image based on time
+    if (timestamp - lastChangeTime >= changeInterval) {
+        // console.log("pasó el interval?")
+        currentIndex = (currentIndex + 1) % totalImages; // Loop through images
+        lastChangeTime = timestamp;
+    }
+
+    // Draw the current image
+    const { img, dx, dy, dWidth, dHeight, sx, sy, sWidth, sHeight } = backgroundAnimationList[currentIndex];
+    // console.log('image', images[currentIndex])
+
+    ctx.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+
+    requestAnimationFrame(animate);
+}
+
+// Start loading images
+loadImages();

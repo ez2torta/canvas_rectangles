@@ -138,7 +138,7 @@ const fillLogo = () => {
     fillCanvas(item);
   });
 
-  adre.forEach(item => {
-    fillCanvas(item)
-  })
+  // adre.forEach(item => {
+  //   fillCanvas(item)
+  // })
 };
