@@ -1,0 +1,4 @@
+TYPE TILE
+NUM 2
+T mm_msg.tga -5 22 240 16 0 104 240 120
+T mm_msg.tga 29 0 152 24 0 152 152 176

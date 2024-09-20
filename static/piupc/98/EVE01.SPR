@@ -1,0 +1,10 @@
+TYPE ani
+NUM 8
+T mm_cz.tga 0 0 16 16 48 240 64 256
+T mm_cz.tga 0 0 16 16 64 240 80 256
+T mm_cz.tga 0 0 16 16 80 240 96 256
+T mm_cz.tga 0 0 16 16 96 240 112 256
+T mm_cz.tga 0 0 16 16 80 240 96 256
+T mm_cz.tga 0 0 16 16 64 240 80 256
+T mm_cz.tga 0 0 16 16 48 240 64 256
+T mm_cz.tga 0 0 16 16 32 240 48 256

@@ -1,0 +1,4 @@
+TYPE TILE
+NUM 2
+T mm_btl.tga -5 -2 650 64 24 184 80 248
+T mm_btl.tga -5 0 650 56 168 184 224 240

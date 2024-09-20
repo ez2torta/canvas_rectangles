@@ -1,0 +1,5 @@
+TYPE TILE
+NUM 3
+T mm_hd.tga 489 12 80 24 176 232 256 256
+T mm_hd.tga 191 6 48 40 208 184 256 224
+T mm_hd.tga 5 4 54 43 0 181 54 224

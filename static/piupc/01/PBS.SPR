@@ -1,0 +1,6 @@
+TYPE tile
+NUM 1
+
+T pbb.tga 14 10 150 463 0 0 256 256
+
+

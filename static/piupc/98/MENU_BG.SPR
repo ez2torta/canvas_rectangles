@@ -1,0 +1,8 @@
+TYPE TILE
+NUM 6
+T menu_bg5.tga 512 256 128 224 128 0 256 224
+T menu_bg5.tga 512 0 128 256 0 0 128 256
+T menu_bg4.tga 256 256 256 224 0 0 256 224
+T menu_bg3.tga 0 256 256 224 0 0 256 224
+T menu_bg2.tga 256 0 256 256 0 0 256 256
+T menu_bg1.tga 0 0 256 256 0 0 256 256

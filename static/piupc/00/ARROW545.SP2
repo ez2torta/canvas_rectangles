@@ -1,0 +1,26 @@
+TYPE TILE
+NUM 24
+T b1 arrow06.tga -35 -35  70  70   0 140  70  70
+T b2 arrow06.tga -35 -35  70  70  70 140  70  70
+T n1 arrow03.tga   8   8  54  54   8  78  54  54
+T n2 arrow03.tga   8   8  54  54  78  78  54  54
+T n3 arrow03.tga   8   8  54  54 148  78  54  54
+T n4 arrow03.tga   8   8  54  54   8 148  54  54
+T n5 arrow03.tga   8   8  54  54  78 148  54  54
+T n6 arrow03.tga   8   8  54  54 148 148  54  54
+T f1 arrow05.tga   0   0  70  70  70 140  70  70
+T f2 arrow05.tga   0   0  70  70 140 140  70  70
+T f3 arrow06.tga   0   0  70  70   0   0  70  70
+T f4 arrow06.tga   0   0  70  70  70   0  70  70
+T f5 arrow06.tga   0   0  70  70 140   0  70  70
+T f6 arrow06.tga   0   0  70  70   0  70  70  70
+T f7 arrow06.tga   0   0  70  70  70  70  70  70
+T f8 arrow06.tga   0   0  70  70 140  70  70  70
+T p1 arrow04.tga   0   0  70  70   0   0  70  70
+T p2 arrow04.tga   0   0  70  70  70   0  70  70
+T p3 arrow04.tga   0   0  70  70 140   0  70  70
+T p4 arrow04.tga   0   0  70  70   0  70  70  70
+T p5 arrow04.tga   0   0  70  70  70  70  70  70
+T p6 arrow04.tga   0   0  70  70 140  70  70  70
+T p7 arrow04.tga   0   0  70  70   0 140  70  70
+T p8 arrow04.tga   0   0  70  70  70 140  70  70

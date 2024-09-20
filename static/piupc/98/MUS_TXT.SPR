@@ -1,0 +1,4 @@
+TYPE TILE
+NUM 2
+T mm_hd.tga 250 15 176 32 0 224 176 256
+T mm_nr.tga 55 15 144 32 0 184 144 216

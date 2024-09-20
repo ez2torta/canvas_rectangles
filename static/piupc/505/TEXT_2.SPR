@@ -1,0 +1,4 @@
+TYPE TILE
+NUM 2
+T BV_texts.tga 0 0 256 54 0 50 256 104
+T BV_texts.tga 256 0 256 53 0 106 256 153

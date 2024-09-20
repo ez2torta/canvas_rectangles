@@ -130,15 +130,15 @@ const fillCanvas = (sprite) => {
 };
 
 const fillLogo = () => {
-  logo01.forEach((item) => {
-    fillCanvas(item);
-  });
+  // logo01.forEach((item) => {
+  //   fillCanvas(item);
+  // });
 
   logo02.forEach((item) => {
     fillCanvas(item);
   });
 
-  // adre.forEach(item => {
-  //   fillCanvas(item)
-  // })
+  adre.forEach(item => {
+    fillCanvas(item)
+  })
 };
